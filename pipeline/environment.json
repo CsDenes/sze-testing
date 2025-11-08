@@ -1,0 +1,27 @@
+{
+	"id": "e000980b-b69c-4023-aa40-7364557cea5b",
+	"name": "flask-local",
+	"values": [
+		{
+			"key": "baseURL",
+			"value": "http://127.0.0.1:5000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "newTodoId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-11-08T16:07:36.334Z",
+	"_postman_exported_using": "Postman/11.70.1"
+}

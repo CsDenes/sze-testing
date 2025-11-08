@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "4837fc8d-4b58-4a65-b681-26823b39975c",
+		"name": "Flask To-Do API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49783359",
+		"_collection_link": "https://csizmadiadenes-5086610.postman.co/workspace/D%C3%A9nes-Csizmadia's-Workspace~7e65c616-6158-4a27-8cad-9a4eb970fa7f/collection/49783359-4837fc8d-4b58-4a65-b681-26823b39975c?action=share&source=collection_link&creator=49783359"
+	},
+	"item": [
+		{
+			"name": "GET All Todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});",
+							"",
+							"pm.test(\"Array has at least 2 initial items\", function () {",
+							"    pm.expect(pm.response.json().length).to.be.at.least(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/todos",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create New Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 2.1. Check Status and Structure",
+							"pm.test(\"Status code is 201 (Created)\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"// 2.2. Save the ID for subsequent tests",
+							"const responseJson = pm.response.json();",
+							"pm.test(\"Set newTodoId for subsequent tests\", function () {",
+							"    pm.environment.set(\"newTodoId\", responseJson.id);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"task\": \"Buy groceries for the week\"\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/todos",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Single Todo (using ID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"pm.test(\"Returned ID matches the saved ID\", function () {",
+							"    // Ensure the ID of the fetched todo matches the one we created",
+							"    pm.expect(responseJson.id).to.eql(pm.environment.get(\"newTodoId\"));",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/todos/{{newTodoId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos",
+						"{{newTodoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update Todo (using ID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Todo is marked as done: true\", function () {",
+							"    // Verify the 'done' property was updated",
+							"    pm.expect(pm.response.json().done).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"done\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/todos/{{newTodoId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos",
+						"{{newTodoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Todo (using ID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 (No Content)\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response body is empty (No Content)\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/todos/{{newTodoId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos",
+						"{{newTodoId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		},
+		{
+			"key": "newTodoId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
