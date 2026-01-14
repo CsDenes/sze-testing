@@ -1,5 +1,6 @@
 ## A projekt beállítás
 
+
 - Nyisd meg a Visual Studio Code alkalmazást
 - Nyiss egy új terminált és válaszd ki a git bash opciót
 - Forkold ezt a GitHub repository-t, majd klónozhatod a helyi gépedre: [Github projekt](https://github.com/CsDenes/sze-test-lab/tree/main)
